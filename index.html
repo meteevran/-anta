@@ -51,7 +51,11 @@
             transition: 0.3s;
         }
 
-        /* Filtreleme Alanı */
+        .clear-cart-btn:hover {
+            background-color: red;
+        }
+
+        /* Filtreleme ve Arama Alanı */
         .filter-section {
             text-align: center;
             margin: 20px 0;
@@ -61,8 +65,10 @@
             padding: 12px 20px;
             border-radius: 25px;
             border: 1px solid #ddd;
+            outline: none;
             width: 350px;
-            max-width: 90%;
+            font-size: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
 
         .horizontal-spec-container {
@@ -83,6 +89,7 @@
             min-width: 150px;
             position: relative;
             cursor: pointer;
+            justify-content: center;
         }
 
         .dropdown-list {
@@ -92,52 +99,78 @@
             left: 0;
             width: 100%;
             background-color: white;
+            border: 1px solid #ddd;
             z-index: 100;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
             list-style: none;
             padding: 0;
+            margin: 0;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
 
         .spec-card:hover .dropdown-list {
             display: block;
         }
 
-        /* ÜRÜN KONTEYNERI - Dağınıklığı Çözen Kısım */
+        .dropdown-list li {
+            padding: 10px 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .dropdown-list li:hover {
+            background-color: bisque;
+        }
+
+        .reset-filter {
+            align-self: center;
+            cursor: pointer;
+            color: blue;
+            text-decoration: underline;
+            font-weight: bold;
+        }
+
+        /* --- DÜZENLEME BURADA BAŞLIYOR: Ürün Konteyneri --- */
         .product-container {
-            display: flex; 
-            flex-wrap: wrap; 
-            justify-content: center; 
-            gap: 25px; 
+            display: flex; /* Kartları esnek kutu içine al */
+            flex-wrap: wrap; /* Sığmayan kartlar alt satıra geçsin */
+            justify-content: center; /* Kartları ortala */
+            gap: 20px; /* Kartlar arası boşluğu sabitle */
             padding: 20px;
             max-width: 1300px;
             margin: 0 auto;
         }
 
         .product-card {
-            width: 280px; 
+            width: 280px; /* Genişliği sabitledik */
             background: white;
             border: 1px solid #eee;
             padding: 15px;
             border-radius: 12px;
+            transition: 0.3s;
             box-shadow: 0 4px 6px rgba(0,0,0,0.02);
-            display: flex;
+            display: flex; /* Kart içindeki elemanları dikey hizalamak için */
             flex-direction: column;
             justify-content: space-between;
-            transition: 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
         }
 
         .product-card img {
             width: 100%;
-            height: 280px; 
-            object-fit: cover; 
+            height: 280px; /* Tüm resim boylarını eşitledik */
+            object-fit: cover; /* Resimlerin kutuyu doldurmasını sağladık */
             border-radius: 8px;
-            margin-bottom: 10px;
+            background-color: #f9f9f9;
         }
+        /* --- DÜZENLEME BURADA BİTTİ --- */
 
         .price {
             font-size: 1.2rem;
             font-weight: bold;
             color: darkblue;
+            margin: 10px 0;
         }
 
         .buy-btn {
@@ -148,9 +181,17 @@
             border-radius: 5px;
             cursor: pointer;
             width: 100%;
+            font-weight: 600;
+            transition: 0.3s;
         }
 
-        .hidden { display: none !important; }
+        .buy-btn:hover {
+            background-color: #00008b;
+        }
+
+        .hidden {
+            display: none !important;
+        }
 
         footer {
             background: #1a237e;
@@ -168,7 +209,7 @@
 
     <div class="cart-status">
         🛒 Sepetim: <span id="sepet-sayisi">0</span>
-        <button onclick="sepetiTemizle()" class="clear-cart-btn">Sepeti Boşalt 🗑️</button>
+        <button onclick="sepetiTemizle()" class="clear-cart-btn" style="margin-left: 15px;">Sepeti Boşalt 🗑️</button>
     </div>
 
     <div class="filter-section">
@@ -176,101 +217,4 @@
     </div>
 
     <div class="horizontal-spec-container">
-        <div class="spec-card">Markalar ▼
-            <ul class="dropdown-list">
-                <li onclick="filterProducts('brand', 'Nova Premium')">Nova Premium</li>
-                <li onclick="filterProducts('brand', 'Luxe Bag')">Luxe Bag</li>
-            </ul>
-        </div>
-        <div class="spec-card">Kategori ▼
-            <ul class="dropdown-list">
-                <li onclick="filterProducts('category', 'kol çantası')">Kol Çantası</li>
-                <li onclick="filterProducts('category', 'cüzdan')">Cüzdan</li>
-            </ul>
-        </div>
-        <div class="reset-filter" onclick="filterProducts('all')" style="cursor:pointer; color:blue;">Tümünü Göster</div>
-    </div>
-
-    <div class="product-container" id="productList">
-        <div class="product-card" data-brand="Nova Premium" data-category="kol çantası" data-color="siyah">
-            <img src="siyah-çanta.jpg" alt="Siyah Çanta">
-            <h3>Nova Siyah Kol Çantası</h3>
-            <p class="price">1.250 TL</p>
-            <button class="buy-btn">Sepete Ekle</button>
-        </div>
-
-        <div class="product-card" data-brand="Nova Premium" data-category="kol çantası" data-color="gri">
-            <img src="opı.webp" alt="Gri Çanta">
-            <h3>Nova Gri Kol Çantası</h3>
-            <p class="price">1.250 TL</p>
-            <button class="buy-btn">Sepete Ekle</button>
-        </div>
-
-        <div class="product-card" data-brand="Nova Premium" data-category="kol çantası" data-color="krem">
-            <img src="opı2.webp" alt="Krem Çanta">
-            <h3>Nova Krem Kol Çantası</h3>
-            <p class="price">1.250 TL</p>
-            <button class="buy-btn">Sepete Ekle</button>
-        </div>
-
-        <div class="product-card" data-brand="Nova Premium" data-category="kol çantası" data-color="kahverengi">
-            <img src="gri çanta.jpg" alt="Kahverengi Çanta">
-            <h3>Nova Kahverengi Kol Çantası</h3>
-            <p class="price">1.250 TL</p>
-            <button class="buy-btn">Sepete Ekle</button>
-        </div>
-
-        <div class="product-card" data-brand="Nova Premium" data-category="kol çantası" data-color="kırmızı">
-            <img src="kırmızı-canta.webp" alt="Kırmızı Çanta">
-            <h3>Nova Kırmızı Kol Çantası</h3>
-            <p class="price">1.250 TL</p>
-            <button class="buy-btn">Sepete Ekle</button>
-        </div>
-
-        <div class="product-card" data-brand="Nova Premium" data-category="kol çantası" data-color="pembe">
-            <img src="lacoste.jpg" alt="Pembe Çanta">
-            <h3>Nova Pembe Kol Çantası</h3>
-            <p class="price">1.250 TL</p>
-            <button class="buy-btn">Sepete Ekle</button>
-        </div>
-
-        <div class="product-card" data-brand="Nova Premium" data-category="kol çantası" data-color="lacivert">
-            <img src="lacivert- canta.webp" alt="Lacivert Çanta">
-            <h3>Nova Lacivert Kol Çantası</h3>
-            <p class="price">1.250 TL</p>
-            <button class="buy-btn">Sepete Ekle</button>
-        </div>
-
-        <div class="product-card" data-brand="Nova Premium" data-category="kol çantası" data-color="beyaz">
-            <img src="beyaz-canta.jpg" alt="Beyaz Çanta">
-            <h3>Nova Beyaz Kol Çantası</h3>
-            <p class="price">1.250 TL</p>
-            <button class="buy-btn">Sepete Ekle</button>
-        </div>
-
-        <div class="product-card" data-brand="Luxe Bag" data-category="cüzdan" data-color="mavi">
-            <img src="cüzdan.webp" alt="Mavi Cüzdan">
-            <h3>Luxe Mavi Cüzdan</h3>
-            <p class="price">750 TL</p>
-            <button class="buy-btn">Sepete Ekle</button>
-        </div>
-    </div>
-
-    <footer>
-        <p>&copy; 2026 NOVA BAG STORE - Tüm Hakları Saklıdır.</p>
-    </footer>
-
-    <script>
-        let novaSepetSayaci = localStorage.getItem('nova_cart_count') ? parseInt(localStorage.getItem('nova_cart_count')) : 0;
-        document.getElementById('sepet-sayisi').innerText = novaSepetSayaci;
-
-        function searchProduct() {
-            const term = document.getElementById('searchInput').value.toLowerCase();
-            document.querySelectorAll('.product-card').forEach(product => {
-                const title = product.querySelector('h3').innerText.toLowerCase();
-                product.classList.toggle('hidden', !title.includes(term));
-            });
-        }
-
-        function filterProducts(type, value) {
-            document.querySelectorAll('.product-card').forEach(product =>
+        <div class="spec-card">
