@@ -51,11 +51,7 @@
             transition: 0.3s;
         }
 
-        .clear-cart-btn:hover {
-            background-color: red;
-        }
-
-        /* Filtreleme ve Arama Alanı */
+        /* Filtreleme Alanı */
         .filter-section {
             text-align: center;
             margin: 20px 0;
@@ -65,11 +61,8 @@
             padding: 12px 20px;
             border-radius: 25px;
             border: 1px solid #ddd;
-            outline: none;
             width: 350px;
             max-width: 90%;
-            font-size: 1rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
 
         .horizontal-spec-container {
@@ -90,7 +83,6 @@
             min-width: 150px;
             position: relative;
             cursor: pointer;
-            justify-content: center;
         }
 
         .dropdown-list {
@@ -100,78 +92,52 @@
             left: 0;
             width: 100%;
             background-color: white;
-            border: 1px solid #ddd;
             z-index: 100;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
             list-style: none;
             padding: 0;
-            margin: 0;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
 
         .spec-card:hover .dropdown-list {
             display: block;
         }
 
-        .dropdown-list li {
-            padding: 10px 15px;
-            border-bottom: 1px solid #eee;
-        }
-
-        .dropdown-list li:hover {
-            background-color: bisque;
-        }
-
-        .reset-filter {
-            align-self: center;
-            cursor: pointer;
-            color: blue;
-            text-decoration: underline;
-            font-weight: bold;
-        }
-
-        /* Ürün Kartları - Düzenleme Yapıldı */
+        /* ÜRÜN KONTEYNERI - Dağınıklığı Çözen Kısım */
         .product-container {
-            display: flex; /* Flexbox eklendi */
-            flex-wrap: wrap; /* Sığmayanlar aşağı insin */
-            justify-content: center; /* Kartları ortala */
-            gap: 20px; /* Kartlar arası boşluk */
+            display: flex; 
+            flex-wrap: wrap; 
+            justify-content: center; 
+            gap: 25px; 
             padding: 20px;
             max-width: 1300px;
             margin: 0 auto;
         }
 
         .product-card {
-            width: 280px; /* Sabit genişlik dağınıklığı önler */
+            width: 280px; 
             background: white;
             border: 1px solid #eee;
             padding: 15px;
             border-radius: 12px;
-            transition: 0.3s;
             box-shadow: 0 4px 6px rgba(0,0,0,0.02);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-        }
-
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+            transition: 0.3s;
         }
 
         .product-card img {
             width: 100%;
-            height: 250px; /* Sabit yükseklik hizalamayı sağlar */
-            object-fit: contain; /* Resmin bozulmasını önler */
+            height: 280px; 
+            object-fit: cover; 
             border-radius: 8px;
-            background-color: #fff;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
 
         .price {
             font-size: 1.2rem;
             font-weight: bold;
             color: darkblue;
-            margin: 10px 0;
         }
 
         .buy-btn {
@@ -182,17 +148,9 @@
             border-radius: 5px;
             cursor: pointer;
             width: 100%;
-            font-weight: 600;
-            transition: 0.3s;
         }
 
-        .buy-btn:hover {
-            background-color: #00008b;
-        }
-
-        .hidden {
-            display: none !important;
-        }
+        .hidden { display: none !important; }
 
         footer {
             background: #1a237e;
@@ -210,7 +168,7 @@
 
     <div class="cart-status">
         🛒 Sepetim: <span id="sepet-sayisi">0</span>
-        <button onclick="sepetiTemizle()" class="clear-cart-btn" style="margin-left: 15px;">Sepeti Boşalt 🗑️</button>
+        <button onclick="sepetiTemizle()" class="clear-cart-btn">Sepeti Boşalt 🗑️</button>
     </div>
 
     <div class="filter-section">
@@ -218,37 +176,19 @@
     </div>
 
     <div class="horizontal-spec-container">
-        <div class="spec-card">
-            <div class="spec-content">Markalar ▼</div>
+        <div class="spec-card">Markalar ▼
             <ul class="dropdown-list">
                 <li onclick="filterProducts('brand', 'Nova Premium')">Nova Premium</li>
                 <li onclick="filterProducts('brand', 'Luxe Bag')">Luxe Bag</li>
             </ul>
         </div>
-
-        <div class="spec-card">
-            <div class="spec-content">Kategori ▼</div>
+        <div class="spec-card">Kategori ▼
             <ul class="dropdown-list">
                 <li onclick="filterProducts('category', 'kol çantası')">Kol Çantası</li>
                 <li onclick="filterProducts('category', 'cüzdan')">Cüzdan</li>
             </ul>
         </div>
-
-        <div class="spec-card">
-            <div class="spec-content">Renk ▼</div>
-            <ul class="dropdown-list">
-                <li onclick="filterProducts('color', 'siyah')">Siyah</li>
-                <li onclick="filterProducts('color', 'mavi')">Mavi</li>
-                <li onclick="filterProducts('color', 'gri')">Gri</li>
-                <li onclick="filterProducts('color', 'krem')">Krem</li>
-                <li onclick="filterProducts('color', 'kahverengi')">Kahverengi</li>
-                <li onclick="filterProducts('color', 'kırmızı')">Kırmızı</li>
-                <li onclick="filterProducts('color', 'pembe')">Pembe</li>
-                <li onclick="filterProducts('color', 'lacivert')">Lacivert</li>
-                <li onclick="filterProducts('color', 'beyaz')">Beyaz</li>
-            </ul>
-        </div>
-        <div class="reset-filter" onclick="filterProducts('all')">Tümünü Göster</div>
+        <div class="reset-filter" onclick="filterProducts('all')" style="cursor:pointer; color:blue;">Tümünü Göster</div>
     </div>
 
     <div class="product-container" id="productList">
@@ -281,7 +221,7 @@
         </div>
 
         <div class="product-card" data-brand="Nova Premium" data-category="kol çantası" data-color="kırmızı">
-            <img src="kırmızı-canta.webp" alt="Kırmızı Çanta">
+            <img src="kırmızı-çanta.webp" alt="Kırmızı Çanta">
             <h3>Nova Kırmızı Kol Çantası</h3>
             <p class="price">1.250 TL</p>
             <button class="buy-btn">Sepete Ekle</button>
@@ -295,14 +235,14 @@
         </div>
 
         <div class="product-card" data-brand="Nova Premium" data-category="kol çantası" data-color="lacivert">
-            <img src="lacivert- canta.webp" alt="Lacivert Çanta">
+            <img src="lacivert- çanta.webp" alt="Lacivert Çanta">
             <h3>Nova Lacivert Kol Çantası</h3>
             <p class="price">1.250 TL</p>
             <button class="buy-btn">Sepete Ekle</button>
         </div>
 
         <div class="product-card" data-brand="Nova Premium" data-category="kol çantası" data-color="beyaz">
-            <img src="beyaz-canta.jpg" alt="Beyaz Çanta">
+            <img src="beyaz-çanta.jpg" alt="Beyaz Çanta">
             <h3>Nova Beyaz Kol Çantası</h3>
             <p class="price">1.250 TL</p>
             <button class="buy-btn">Sepete Ekle</button>
@@ -317,22 +257,6 @@
     </div>
 
     <footer>
-        <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-around; flex-wrap: wrap; gap: 20px;">
-            <div>
-                <h4>NOVA BAG</h4>
-                <p>Tarzını tamamlayan en şık çantalar.</p>
-            </div>
-            <div>
-                <h4>İletişim</h4>
-                <p>İzmir, Türkiye</p>
-                <p>info@novabag.com</p>
-            </div>
-            <div>
-                <h4>Takip Et</h4>
-                <p>Instagram | Twitter</p>
-            </div>
-        </div>
-        <hr style="opacity: 0.2; margin: 20px 0;">
         <p>&copy; 2026 NOVA BAG STORE - Tüm Hakları Saklıdır.</p>
     </footer>
 
@@ -342,60 +266,11 @@
 
         function searchProduct() {
             const term = document.getElementById('searchInput').value.toLowerCase();
-            const products = document.querySelectorAll('.product-card');
-
-            products.forEach(product => {
+            document.querySelectorAll('.product-card').forEach(product => {
                 const title = product.querySelector('h3').innerText.toLowerCase();
-                const brand = product.getAttribute('data-brand').toLowerCase();
-                
-                if (title.includes(term) || brand.includes(term)) {
-                    product.classList.remove('hidden');
-                } else {
-                    product.classList.add('hidden');
-                }
+                product.classList.toggle('hidden', !title.includes(term));
             });
         }
 
         function filterProducts(type, value) {
-            const products = document.querySelectorAll('.product-card');
-            products.forEach(product => {
-                if (type === 'all') {
-                    product.classList.remove('hidden');
-                } else {
-                    const productValue = product.getAttribute('data-' + type).toLowerCase();
-                    if (productValue === value.toLowerCase()) {
-                        product.classList.remove('hidden');
-                    } else {
-                        product.classList.add('hidden');
-                    }
-                }
-            });
-        }
-
-        function sepeteEkle(event) {
-            novaSepetSayaci++;
-            localStorage.setItem('nova_cart_count', novaSepetSayaci);
-            document.getElementById('sepet-sayisi').innerText = novaSepetSayaci;
-            
-            const urunKarti = event.target.closest('.product-card');
-            const urunAdi = urunKarti.querySelector('h3').innerText;
-            alert(urunAdi + " sepete eklendi!");
-        }
-
-        function sepetiTemizle() {
-            if (confirm("Sepeti boşaltmak istiyor musunuz?")) {
-                novaSepetSayaci = 0;
-                localStorage.setItem('nova_cart_count', 0);
-                document.getElementById('sepet-sayisi').innerText = 0;
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            document.querySelectorAll('.buy-btn').forEach(btn => {
-                btn.addEventListener('click', sepeteEkle);
-            });
-        });
-    </script>
-</body>
-
-</html>
+            document.querySelectorAll('.product-card').forEach(product =>
