@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NOVA BAG STORE</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+
+        h1 {
+            color: darkblue;
+            text-align: center;
+            margin-top: 30px;
+            letter-spacing: 2px;
+        }
+
+        /* Sepet Bölümü */
+        .cart-status {
+            text-align: right;
+            padding: 20px 50px;
+            position: sticky;
+            top: 0;
+            background: rgba(255, 255, 255, 0.9);
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            backdrop-filter: blur(5px);
+        }
+
+        #sepet-sayisi {
+            font-weight: bold;
+            color: white;
+            background: red;
+            padding: 2px 8px;
+            border-radius: 50%;
+            font-size: 1rem;
+        }
+
+        .clear-cart-btn {
+            background-color: darkred;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .clear-cart-btn:hover {
+            background-color: red;
+        }
+
+        /* Filtreleme ve Arama Alanı */
+        .filter-section {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        #searchInput {
+            padding: 12px 20px;
+            border-radius: 25px;
+            border: 1px solid #ddd;
+            outline: none;
+            width: 350px;
+            font-size: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .horizontal-spec-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin: 10px 20px 30px 20px;
+        }
+
+        .spec-card {
+            display: flex;
+            align-items: center;
+            background: #fff;
+            border: 1px solid #ddd;
+            padding: 12px 20px;
+            border-radius: 8px;
+            min-width: 150px;
+            position: relative;
+            cursor: pointer;
+            justify-content: center;
+        }
+
+        .dropdown-list {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background-color: white;
+            border: 1px solid #ddd;
+            z-index: 100;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .spec-card:hover .dropdown-list {
+            display: block;
+        }
+
+        .dropdown-list li {
+            padding: 10px 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .dropdown-list li:hover {
+            background-color: bisque;
+        }
+
+        .reset-filter {
+            align-self: center;
+            cursor: pointer;
+            color: blue;
+            text-decoration: underline;
+            font-weight: bold;
+        }
+
+        /* Ürün Kartları */
+        .product-container {
+            text-align: center;
+            padding: 20px;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        .product-card {
+            width: 260px;
+            background: white;
+            border: 1px solid #eee;
+            padding: 15px;
+            border-radius: 12px;
+            margin: 15px;
+            display: inline-block;
+            vertical-align: top;
+            transition: 0.3s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+
+        .price {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: darkblue;
+            margin: 10px 0;
+        }
+
+        .buy-btn {
+            background-color: darkblue;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .buy-btn:hover {
+            background-color: #00008b;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        footer {
+            background: #1a237e;
+            color: white;
+            padding: 40px 20px;
+            margin-top: 50px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>NOVA BAG STORE</h1>
+
+    <div class="cart-status">
+        🛒 Sepetim: <span id="sepet-sayisi">0</span>
+        <button onclick="sepetiTemizle()" class="clear-cart-btn" style="margin-left: 15px;">Sepeti Boşalt 🗑️</button>
+    </div>
+
+    <div class="filter-section">
+        <input type="text" id="searchInput" placeholder="Model veya marka ara..." onkeyup="searchProduct()">
+    </div>
+
+    <div class="horizontal-spec-container">
+        <div class="spec-card">
+            <div class="spec-content">Markalar ▼</div>
+            <ul class="dropdown-list">
+                <li onclick="filterProducts('brand', 'Nova Premium')">Nova Premium</li>
+                <li onclick="filterProducts('brand', 'Luxe Bag')">Luxe Bag</li>
+            </ul>
+        </div>
+
+        <div class="spec-card">
+            <div class="spec-content">Kategori ▼</div>
+            <ul class="dropdown-list">
+                <li onclick="filterProducts('category', 'kol çantası')">Kol Çantası</li>
+                <li onclick="filterProducts('category', 'cüzdan')">Cüzdan</li>
+            </ul>
+        </div>
+
+        <div class="spec-card">
+            <div class="spec-content">Renk ▼</div>
+            <ul class="dropdown-list">
+                <li onclick="filterProducts('color', 'siyah')">Siyah</li>
+                <li onclick="filterProducts('color', 'mavi')">Mavi</li>
+                <li onclick="filterProducts('color', 'gri')">Gri</li>
+                <li onclick="filterProducts('color', 'krem')">Krem</li>
+                <li onclick="filterProducts('color', 'kahverengi')">Kahverengi</li>
+                <li onclick="filterProducts('color', 'kırmızı')">Kırmızı</li>
+                <li onclick="filterProducts('color', 'pembe')">Pembe</li>
+                <li onclick="filterProducts('color', 'lacivert')">Lacivert</li>
+                <li onclick="filterProducts('color', 'beyaz')">Beyaz</li>
+            </ul>
+        </div>
+        <div class="reset-filter" onclick="filterProducts('all')">Tümünü Göster</div>
+    </div>
+
+    <div class="product-container" id="productList">
+        <div class="product-card" data-brand="Nova Premium" data-category="kol çantası" data-color="siyah">
+            <img src="siyah-çanta.jpg" alt="Siyah Çanta">
+            <h3>Nova Siyah Kol Çantası</h3>
+            <p class="price">1.250 TL</p>
+            <button class="buy-btn">Sepete Ekle</button>
+        </div>
+
+        <div class="product-card" data-brand="Nova Premium" data-category="kol çantası" data-color="gri">
+            <img src="OIP.webp" alt="Gri Çanta">
+            <h3>Nova Gri Kol Çantası</h3>
+            <p class="price">1.250 TL</p>
+            <button class="buy-btn">Sepete Ekle</button>
+        </div>
+
+        <div class="product-card" data-brand="Nova Premium" data-category="kol çantası" data-color="krem">
+            <img src="opı2.webp" alt="Krem Çanta">
+            <h3>Nova Krem Kol Çantası</h3>
+            <p class="price">1.250 TL</p>
+            <button class="buy-btn">Sepete Ekle</button>
+        </div>
+
+        <div class="product-card" data-brand="Nova Premium" data-category="kol çantası" data-color="kahverengi">
+            <img src="gri çanta.jpg" alt="Kahverengi Çanta">
+            <h3>Nova Kahverengi Kol Çantası</h3>
+            <p class="price">1.250 TL</p>
+            <button class="buy-btn">Sepete Ekle</button>
+        </div>
+
+        <div class="product-card" data-brand="Nova Premium" data-category="kol çantası" data-color="kırmızı">
+            <img src="kırmızı çanta.webp" alt="Kırmızı Çanta">
+            <h3>Nova Kırmızı Kol Çantası</h3>
+            <p class="price">1.250 TL</p>
+            <button class="buy-btn">Sepete Ekle</button>
+        </div>
+
+        <div class="product-card" data-brand="Nova Premium" data-category="kol çantası" data-color="pembe">
+            <img src="LACOSTE.jpg" alt="Pembe Çanta">
+            <h3>Nova Pembe Kol Çantası</h3>
+            <p class="price">1.250 TL</p>
+            <button class="buy-btn">Sepete Ekle</button>
+        </div>
+
+        <div class="product-card" data-brand="Nova Premium" data-category="kol çantası" data-color="lacivert">
+            <img src="lacivert çanta.webp" alt="Lacivert Çanta">
+            <h3>Nova Lacivert Kol Çantası</h3>
+            <p class="price">1.250 TL</p>
+            <button class="buy-btn">Sepete Ekle</button>
+        </div>
+
+        <div class="product-card" data-brand="Nova Premium" data-category="kol çantası" data-color="beyaz">
+            <img src="beyaz çanta.jpg" alt="Beyaz Çanta">
+            <h3>Nova Beyaz Kol Çantası</h3>
+            <p class="price">1.250 TL</p>
+            <button class="buy-btn">Sepete Ekle</button>
+        </div>
+
+        <div class="product-card" data-brand="Luxe Bag" data-category="cüzdan" data-color="mavi">
+            <img src="cüzdan.webp" alt="Mavi Cüzdan">
+            <h3>Luxe Mavi Cüzdan</h3>
+            <p class="price">750 TL</p>
+            <button class="buy-btn">Sepete Ekle</button>
+        </div>
+    </div>
+
+    <footer>
+        <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-around; flex-wrap: wrap; gap: 20px;">
+            <div>
+                <h4>NOVA BAG</h4>
+                <p>Tarzını tamamlayan en şık çantalar.</p>
+            </div>
+            <div>
+                <h4>İletişim</h4>
+                <p>İzmir, Türkiye</p>
+                <p>info@novabag.com</p>
+            </div>
+            <div>
+                <h4>Takip Et</h4>
+                <p>Instagram | Twitter</p>
+            </div>
+        </div>
+        <hr style="opacity: 0.2; margin: 20px 0;">
+        <p>&copy; 2026 NOVA BAG STORE - Tüm Hakları Saklıdır.</p>
+    </footer>
+
+    <script>
+        // Sayfa yüklendiğinde sepet sayısını LocalStorage'dan al
+        let novaSepetSayaci = localStorage.getItem('nova_cart_count') ? parseInt(localStorage.getItem('nova_cart_count')) : 0;
+        document.getElementById('sepet-sayisi').innerText = novaSepetSayaci;
+
+        // ARAMA FONKSİYONU
+        function searchProduct() {
+            const term = document.getElementById('searchInput').value.toLowerCase();
+            const products = document.querySelectorAll('.product-card');
+
+            products.forEach(product => {
+                const title = product.querySelector('h3').innerText.toLowerCase();
+                const brand = product.getAttribute('data-brand').toLowerCase();
+                
+                if (title.includes(term) || brand.includes(term)) {
+                    product.classList.remove('hidden');
+                } else {
+                    product.classList.add('hidden');
+                }
+            });
+        }
+
+        // FİLTRELEME FONKSİYONU
+        function filterProducts(type, value) {
+            const products = document.querySelectorAll('.product-card');
+            products.forEach(product => {
+                if (type === 'all') {
+                    product.classList.remove('hidden');
+                } else {
+                    const productValue = product.getAttribute('data-' + type).toLowerCase();
+                    if (productValue === value.toLowerCase()) {
+                        product.classList.remove('hidden');
+                    } else {
+                        product.classList.add('hidden');
+                    }
+                }
+            });
+        }
+
+        function sepeteEkle(event) {
+            novaSepetSayaci++;
+            // LocalStorage'a kaydet
+            localStorage.setItem('nova_cart_count', novaSepetSayaci);
+            document.getElementById('sepet-sayisi').innerText = novaSepetSayaci;
+            
+            const urunKarti = event.target.closest('.product-card');
+            const urunAdi = urunKarti.querySelector('h3').innerText;
+            alert(urunAdi + " sepete eklendi!");
+        }
+
+        function sepetiTemizle() {
+            if (confirm("Sepeti boşaltmak istiyor musunuz?")) {
+                novaSepetSayaci = 0;
+                localStorage.setItem('nova_cart_count', 0);
+                document.getElementById('sepet-sayisi').innerText = 0;
+            }
+        }
+
+        // Event listener'ları butonlara bağla
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.buy-btn').forEach(btn => {
+                btn.addEventListener('click', sepeteEkle);
+            });
+        });
+    </script>
+</body>
+</html>
