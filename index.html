@@ -67,6 +67,7 @@
             border: 1px solid #ddd;
             outline: none;
             width: 350px;
+            max-width: 90%;
             font-size: 1rem;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
@@ -128,25 +129,28 @@
             font-weight: bold;
         }
 
-        /* Ürün Kartları */
+        /* Ürün Kartları - Düzenleme Yapıldı */
         .product-container {
-            text-align: center;
+            display: flex; /* Flexbox eklendi */
+            flex-wrap: wrap; /* Sığmayanlar aşağı insin */
+            justify-content: center; /* Kartları ortala */
+            gap: 20px; /* Kartlar arası boşluk */
             padding: 20px;
             max-width: 1300px;
             margin: 0 auto;
         }
 
         .product-card {
-            width: 260px;
+            width: 280px; /* Sabit genişlik dağınıklığı önler */
             background: white;
             border: 1px solid #eee;
             padding: 15px;
             border-radius: 12px;
-            margin: 15px;
-            display: inline-block;
-            vertical-align: top;
             transition: 0.3s;
             box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
         .product-card:hover {
@@ -156,10 +160,11 @@
 
         .product-card img {
             width: 100%;
-            height: 280px;
-            object-fit: cover;
+            height: 250px; /* Sabit yükseklik hizalamayı sağlar */
+            object-fit: contain; /* Resmin bozulmasını önler */
             border-radius: 8px;
-            background-color: #f9f9f9;
+            background-color: #fff;
+            margin-bottom: 15px;
         }
 
         .price {
@@ -186,7 +191,7 @@
         }
 
         .hidden {
-            display: none;
+            display: none !important;
         }
 
         footer {
@@ -255,14 +260,14 @@
         </div>
 
         <div class="product-card" data-brand="Nova Premium" data-category="kol çantası" data-color="gri">
-            <img src="opı.webp" alt="Gri Çanta">
+            <img src="opi.webp" alt="Gri Çanta">
             <h3>Nova Gri Kol Çantası</h3>
             <p class="price">1.250 TL</p>
             <button class="buy-btn">Sepete Ekle</button>
         </div>
 
         <div class="product-card" data-brand="Nova Premium" data-category="kol çantası" data-color="krem">
-            <img src="opı2.webp" alt="Krem Çanta">
+            <img src="opi2.webp" alt="Krem Çanta">
             <h3>Nova Krem Kol Çantası</h3>
             <p class="price">1.250 TL</p>
             <button class="buy-btn">Sepete Ekle</button>
@@ -276,7 +281,7 @@
         </div>
 
         <div class="product-card" data-brand="Nova Premium" data-category="kol çantası" data-color="kırmızı">
-            <img src="kırmızı-canta.webp" alt="Kırmızı Çanta">
+            <img src="kırmızı-çanta.webp" alt="Kırmızı Çanta">
             <h3>Nova Kırmızı Kol Çantası</h3>
             <p class="price">1.250 TL</p>
             <button class="buy-btn">Sepete Ekle</button>
@@ -290,14 +295,14 @@
         </div>
 
         <div class="product-card" data-brand="Nova Premium" data-category="kol çantası" data-color="lacivert">
-            <img src="lacivert- canta.webp" alt="Lacivert Çanta">
+            <img src="lacivert- çanta.webp" alt="Lacivert Çanta">
             <h3>Nova Lacivert Kol Çantası</h3>
             <p class="price">1.250 TL</p>
             <button class="buy-btn">Sepete Ekle</button>
         </div>
 
         <div class="product-card" data-brand="Nova Premium" data-category="kol çantası" data-color="beyaz">
-            <img src="beyaz-canta.jpg" alt="Beyaz Çanta">
+            <img src="beyaz-çanta.jpg" alt="Beyaz Çanta">
             <h3>Nova Beyaz Kol Çantası</h3>
             <p class="price">1.250 TL</p>
             <button class="buy-btn">Sepete Ekle</button>
@@ -332,11 +337,9 @@
     </footer>
 
     <script>
-        // Sayfa yüklendiğinde sepet sayısını LocalStorage'dan al
         let novaSepetSayaci = localStorage.getItem('nova_cart_count') ? parseInt(localStorage.getItem('nova_cart_count')) : 0;
         document.getElementById('sepet-sayisi').innerText = novaSepetSayaci;
 
-        // ARAMA FONKSİYONU
         function searchProduct() {
             const term = document.getElementById('searchInput').value.toLowerCase();
             const products = document.querySelectorAll('.product-card');
@@ -353,7 +356,6 @@
             });
         }
 
-        // FİLTRELEME FONKSİYONU
         function filterProducts(type, value) {
             const products = document.querySelectorAll('.product-card');
             products.forEach(product => {
@@ -372,7 +374,6 @@
 
         function sepeteEkle(event) {
             novaSepetSayaci++;
-            // LocalStorage'a kaydet
             localStorage.setItem('nova_cart_count', novaSepetSayaci);
             document.getElementById('sepet-sayisi').innerText = novaSepetSayaci;
             
@@ -389,7 +390,6 @@
             }
         }
 
-        // Event listener'ları butonlara bağla
         document.addEventListener('DOMContentLoaded', () => {
             document.querySelectorAll('.buy-btn').forEach(btn => {
                 btn.addEventListener('click', sepeteEkle);
@@ -397,4 +397,5 @@
         });
     </script>
 </body>
+
 </html>
